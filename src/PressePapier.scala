@@ -1,8 +1,12 @@
 class PressePapier{
-	var texte = ""
+	private var texte = ""
 	
 	def ajouterTexte(txt:String):Unit={
 		texte = txt
 	}
 	def recupererTexte():String= texte
+	
+	def afficherTexte():Unit={
+		System.out.println(texte)
+	}
 }

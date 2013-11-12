@@ -1,13 +1,13 @@
 class Deplacer(contxt:Buffer) extends Commande{
-	var contexte = contxt
+	private var contexte = contxt
   
-	var ihm : IHM = _
+	private var ihm : IHM = _
   
 	def setIHM(i:IHM):Unit = {
 	  	ihm = i
 	}
 	
-	def execute():Unit={
+	override def execute():Unit={
 		val pos = ihm.getPosition
 		contexte.deplacer(pos)
 		

@@ -1,7 +1,7 @@
 class Couper(contxt:Buffer) extends Commande{
-	var contexte = contxt
+	private var contexte = contxt
   
-	def execute():Unit={
+	override def execute():Unit={
 		contexte.couper
 	}
 }

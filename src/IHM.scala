@@ -1,17 +1,21 @@
-class IHM(buff:Buffer, copi:Copier, coll:Coller, coup:Couper, depl:Deplacer, ecri:Ecrire, effa:Effacer){
-	var buffer = buff
-	var cop = copi
-	var col = coll
-	var cou = coup
-	var dep = depl
-	var ecr = ecri
-	var eff = effa
-	var position : Integer = _
-	var caractere : Char = _
+class IHM(buff:Buffer, coll:Coller, copi:Copier, coup:Couper, depl:Deplacer, ecri:Ecrire, effa:Effacer){
+	private var buffer = buff
+	private var col = coll
+	private var cop = copi
+	private var cou = coup
+	private var dep = depl
+	private var ecr = ecri
+	private var eff = effa
+	private var position : Integer = _
+	private var caractere : Char = _
 	
 	def getPosition():Integer= position
 	
 	def getCaractere():Char= caractere
+	
+	def afficherTexte():Unit={
+		buffer.afficher
+	}
 	
 	def positionnerCurseur(pos:Integer):Unit={
 		buffer.positionnerCurseur(pos)
