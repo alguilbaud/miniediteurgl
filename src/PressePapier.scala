@@ -6,7 +6,4 @@ class PressePapier{
 	}
 	def recupererTexte():String= texte
 	
-	def afficherTexte():Unit={
-		System.out.println(texte)
-	}
 }
