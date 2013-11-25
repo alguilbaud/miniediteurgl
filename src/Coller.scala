@@ -2,11 +2,24 @@ class Coller(contxt:Buffer) extends Commande{
 	private var contexte = contxt
 	//attributs de la version 2
 	private var debutCurseur:Integer = _
-	private var longeurSelection:Integer = _
+	private var longueurSelection:Integer = _
 	
-	override def execute():Unit={
+	def execute():Unit={
 		debutCurseur = contexte.getDebutCurseur
-		longeurSelection = contexte.getLongueurSelection
-		contexte.coller
+		longueurSelection = contexte.getLongueurSelection
+		contexte.coller(this)
+		contexte.sauverCommande(this)
+	}
+	
+	def refaire():Unit={
+		contexte.coller(this)
+	}
+	
+	def getDebutCurseur():Integer = {
+		return debutCurseur
+	}
+	
+	def getLongueurSelection():Integer = {
+		return longueurSelection
 	}
 }
