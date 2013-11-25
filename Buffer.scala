@@ -33,21 +33,30 @@ class Buffer(pp:PressePapier){
 		}
 	}
 	
-	def copier(c:Commande):Unit={ //met dans le presse papier la sélection
+	def copier(c:Copier):Unit={ //met dans le presse papier la sélection
+		debutCurseur = c.getDebutCurseur
+		longueurSelection = c.getLongueurSelection
 		if (longueurSelection > 0){
-			pressePapier.ajouterTexte(texte.substring(debutCurseur, debutCurseur + longueurSelection))	
+			pressePapier.ajouterTexte(texte.substring(debutCurseur, debutCurseur + longueurSelection))
 		}
 	}
 	
-	def couper(c:Commande):Unit={ //copie la sélection dans le presse papier puis l'efface
+	def couper(c:Couper):Unit={ //copie la sélection dans le presse papier puis l'efface
+		debutCurseur = c.getDebutCurseur
+		longueurSelection = c.getLongueurSelection
 		if (longueurSelection > 0){
-			this.copier()
-			this.effacer
+			pressePapier.ajouterTexte(texte.substring(debutCurseur, debutCurseur + longueurSelection))
+			val part1 = texte.substring(0, debutCurseur)
+			val part2 = texte.substring(debutCurseur+longueurSelection, texte.length)
+			texte = part1 + part2
+			longueurSelection = 0
 		}
 	}
 	
-	def coller(c:Commande):Unit={ //colle dans le texte le contenu du presse papier (s'il y avait une sélection, celle-ci est remplacée)
-	  	val texteAColler = pressePapier.recupererTexte
+	def coller(c:Coller):Unit={ //colle dans le texte le contenu du presse papier (s'il y avait une sélection, celle-ci est remplacée)
+	  	debutCurseur = c.getDebutCurseur
+		longueurSelection = c.getLongueurSelection
+		val texteAColler = pressePapier.recupererTexte
 	  	if (texteAColler.length > 0){ //on ne colle que si le presse papier ne contenait pas la chaine vide
 	  		val part1 = texte.substring(0, debutCurseur)
 	  		val part2 = texte.substring(debutCurseur+longueurSelection, texte.length)
@@ -57,7 +66,10 @@ class Buffer(pp:PressePapier){
 	  	}
 	}
 	
-	def deplacer(c:Commande, pos:Integer):Unit={ //déplace la sélection débutant à débutCurseur pour la mettre à la position pos
+	def deplacer(c:Deplacer):Unit={ //déplace la sélection débutant à débutCurseur pour la mettre à la position pos
+		debutCurseur = c.getDebutCurseur
+		longueurSelection = c.getLongueurSelection
+		val pos = c.getPosition
 		if (pos >= debutCurseur){
 			val part1 = texte.substring(0, debutCurseur)
 			val texteADeplacer = texte.substring(debutCurseur, debutCurseur + longueurSelection)
@@ -76,15 +88,20 @@ class Buffer(pp:PressePapier){
 		}
 	}
 	
-	def ecrire(c:Commande, ch:Char):Unit={ //écrit un caractère à l'endroit du curseur si pas de sélection, et à la place de la sélection s'il y en a
+	def ecrire(c:Ecrire):Unit={ //écrit un caractère à l'endroit du curseur si pas de sélection, et à la place de la sélection s'il y en a
+		debutCurseur = c.getDebutCurseur
+		longueurSelection = c.getLongueurSelection
+		val car = c.getCaractere 
 		val part1 = texte.substring(0, debutCurseur)
 		val part2 = texte.substring(debutCurseur+longueurSelection, texte.length)
-		texte = part1 + ch + part2
+		texte = part1 + car + part2
 		longueurSelection = 0
 		debutCurseur += 1
 	}
 	
-	def effacer(c:Commande):Unit={
+	def effacer(c:Effacer):Unit={
+		debutCurseur = c.getDebutCurseur
+		longueurSelection = c.getLongueurSelection
 		if(longueurSelection > 0){ //si on a une sélection, on efface cette sélection
 			val part1 = texte.substring(0, debutCurseur)
 			val part2 = texte.substring(debutCurseur+longueurSelection, texte.length)
@@ -101,13 +118,24 @@ class Buffer(pp:PressePapier){
 		}
 	}
 	
+	def sauverCommande(c:Commande):Unit={
+		c::historique
+	}
+	
 	def reinitialiser():Unit={
 		texte=""
 	    debutCurseur=0
 	    longueurSelection=0
 	}
 	
-	def rejouer():Unit={
-	  
+	def rejouer():Unit={ //méthode pour demander au buffer de rejouer son historique de commandes
+		rejouer(historique)
+	}
+	
+	def rejouer(l:List[Commande]):Unit={ //méthode récursive qui va refaire toutes les commandes depuis le début
+		if (!l.isEmpty){
+			l.last.refaire()
+			rejouer(l.init)
+		}
 	}
 }

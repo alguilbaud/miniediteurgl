@@ -3,17 +3,34 @@ class Deplacer(contxt:Buffer) extends Commande{
 	private var ihm : IHM = _
 	//attributs de la version 2
 	private var debutCurseur:Integer = _
-	private var longeurSelection:Integer = _
+	private var longueurSelection:Integer = _
+	private var position:Integer = _
   
 	def setIHM(i:IHM):Unit = {
 	  	ihm = i
 	}
 	
-	override def execute():Unit={
+	def getPosition():Integer = {
+		return position
+	}
+	
+	def execute():Unit={
 		debutCurseur = contexte.getDebutCurseur
-		longeurSelection = contexte.getLongueurSelection
-		val pos = ihm.getPosition
-		contexte.deplacer(pos)
-		
+		longueurSelection = contexte.getLongueurSelection
+		position = ihm.getPosition
+		contexte.deplacer(this)
+		contexte.sauverCommande(this)
+	}
+	
+	def refaire():Unit={
+		contexte.deplacer(this)
+	}
+	
+	def getDebutCurseur():Integer = {
+		return debutCurseur
+	}
+	
+	def getLongueurSelection():Integer = {
+		return longueurSelection
 	}
 }
