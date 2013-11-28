@@ -6,4 +6,8 @@ class PressePapier{
 	}
 	def recupererTexte():String= texte
 	
+	def reinitialiser():Unit={
+		texte=""
+	}
+	
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList
 
 class Buffer(pp:PressePapier){
 	private var texte = ""
@@ -5,7 +6,7 @@ class Buffer(pp:PressePapier){
 	private var debutCurseur = 0
 	private var longueurSelection = 0
 	//attribut de la version 2
-	private var historique = List()
+	private var historique = new ArrayList[Commande]()
 	
 	def afficher():Unit={
 		System.out.println(texte)
@@ -19,6 +20,10 @@ class Buffer(pp:PressePapier){
 		return longueurSelection
 	}
 	
+	def getHistorique():Unit = {
+		System.out.println(historique.size)
+	}
+
 	def positionnerCurseur(pos:Integer):Unit={
 		if (pos>=0 && pos<texte.length){ //on ne change la position du curseur que si c'est une position valide
 			debutCurseur = pos
@@ -92,6 +97,7 @@ class Buffer(pp:PressePapier){
 		debutCurseur = c.getDebutCurseur
 		longueurSelection = c.getLongueurSelection
 		val car = c.getCaractere 
+		System.out.println("debug ecrire : debutCurseur = " + debutCurseur)
 		val part1 = texte.substring(0, debutCurseur)
 		val part2 = texte.substring(debutCurseur+longueurSelection, texte.length)
 		texte = part1 + car + part2
@@ -119,23 +125,26 @@ class Buffer(pp:PressePapier){
 	}
 	
 	def sauverCommande(c:Commande):Unit={
-		c::historique
+		historique.add(c)
 	}
 	
 	def reinitialiser():Unit={
 		texte=""
 	    debutCurseur=0
 	    longueurSelection=0
+	    pressePapier.reinitialiser
 	}
 	
 	def rejouer():Unit={ //méthode pour demander au buffer de rejouer son historique de commandes
-		rejouer(historique)
-	}
-	
-	def rejouer(l:List[Commande]):Unit={ //méthode récursive qui va refaire toutes les commandes depuis le début
-		if (!l.isEmpty){
-			l.last.refaire()
-			rejouer(l.init)
+		for(i <- 0 to historique.size-1){
+			historique.get(i).refaire
 		}
 	}
+	
+	/*def rejouer(l:ArrayList[Commande]):Unit={ //méthode récursive qui va refaire toutes les commandes depuis le début
+		if (!l.isEmpty){
+			l.head.refaire()
+			rejouer(l.tail)
+		}
+	}*/
 }

@@ -52,4 +52,12 @@ class IHM(buff:Buffer, coll:Coller, copi:Copier, coup:Couper, depl:Deplacer, ecr
 	def effacer():Unit={
 		eff.execute
 	}
+	
+	def reinititaliser():Unit={
+		buffer.reinitialiser
+	}
+	
+	def rejouer():Unit={
+		buffer.rejouer
+	}
 }
