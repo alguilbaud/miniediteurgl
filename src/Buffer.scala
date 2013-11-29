@@ -19,13 +19,9 @@ class Buffer(pp:PressePapier){
 	def getLongueurSelection():Integer = {
 		return longueurSelection
 	}
-	
-	def getHistorique():Unit = {
-		System.out.println(historique.size)
-	}
 
 	def positionnerCurseur(pos:Integer):Unit={
-		if (pos>=0 && pos<texte.length){ //on ne change la position du curseur que si c'est une position valide
+		if (pos>=0 && pos<=texte.length){ //on ne change la position du curseur que si c'est une position valide
 			debutCurseur = pos
 			longueurSelection = 0
 		}
@@ -97,7 +93,6 @@ class Buffer(pp:PressePapier){
 		debutCurseur = c.getDebutCurseur
 		longueurSelection = c.getLongueurSelection
 		val car = c.getCaractere 
-		System.out.println("debug ecrire : debutCurseur = " + debutCurseur)
 		val part1 = texte.substring(0, debutCurseur)
 		val part2 = texte.substring(debutCurseur+longueurSelection, texte.length)
 		texte = part1 + car + part2
