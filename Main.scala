@@ -3,13 +3,7 @@ import java.util.ArrayList
 object Main {
 	def main(args: Array[String]) {
 		val buffer = new Buffer(new PressePapier)
-		val coller = new Coller(buffer)
-		val copier = new Copier(buffer)
-		val couper = new Couper(buffer)
-		val deplacer = new Deplacer(buffer)
-		val ecrire = new Ecrire(buffer)
-		val effacer = new Effacer(buffer)
-		val ihm = new IHM(buffer, coller, copier, couper, deplacer, ecrire, effacer)
+		val ihm = new IHM(buffer)
 		
 		
 		ihm.ecrire('a')
@@ -23,7 +17,44 @@ object Main {
 		ihm.ecrire('i')
 		
 		ihm.afficherTexte
-		//buffer.getHistorique
+		
+		ihm.selectionner(0,3)
+		ihm.copier
+		ihm.positionnerCurseur(9)
+		ihm.coller
+		
+		ihm.afficherTexte
+		
+		ihm.selectionner(3,3)
+		ihm.copier
+		ihm.selectionner(9,3)
+		ihm.coller
+		
+		ihm.afficherTexte
+		
+		ihm.effacer
+		
+		ihm.afficherTexte
+		
+		ihm.selectionner(0,9)
+		ihm.couper
+		
+		ihm.afficherTexte
+		
+		ihm.positionnerCurseur(2)
+		ihm.coller
+		
+		ihm.afficherTexte
+		
+		ihm.selectionner(0,2)
+		ihm.deplacer(11)
+		
+		ihm.afficherTexte
+		
+		ihm.selectionner(9,2)
+		ihm.effacer
+		
+		ihm.afficherTexte
 		
 		ihm.reinititaliser
 		ihm.afficherTexte
@@ -31,9 +62,6 @@ object Main {
 		ihm.rejouer
 		ihm.afficherTexte
 		
-		/*ihm.selectionner(4, 3)
-		ihm.deplacer(0)
-		ihm.afficherTexte*/
 		
 	}
 }

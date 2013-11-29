@@ -1,11 +1,5 @@
-class IHM(buff:Buffer, coll:Coller, copi:Copier, coup:Couper, depl:Deplacer, ecri:Ecrire, effa:Effacer){
+class IHM(buff:Buffer){
 	private var buffer = buff
-	private var col = coll
-	private var cop = copi
-	private var cou = coup
-	private var dep = depl
-	private var ecr = ecri
-	private var eff = effa
 	private var position : Integer = _
 	private var caractere : Char = _
 	
@@ -26,30 +20,36 @@ class IHM(buff:Buffer, coll:Coller, copi:Copier, coup:Couper, depl:Deplacer, ecr
 	}
 	
 	def copier():Unit={ //met dans le presse papier la sélection
+		val cop = new Copier(buffer)
 		cop.execute
 	}
 	
 	def couper():Unit={ //copie la sélection dans le presse papier puis l'efface
+		val cou = new Couper(buffer)
 		cou.execute
 	}
 	
 	def coller():Unit={ //colle dans le texte le contenu du presse papier (s'il y avait une sélection, celle-ci est remplacée)
+		val col = new Coller(buffer)
 		col.execute
 	}
 	
 	def deplacer(pos:Integer):Unit={
+		val dep = new Deplacer(buffer)
 		dep.setIHM(this)
 		position = pos
 		dep.execute
 	}
 	
 	def ecrire(c:Char):Unit={
+		val ecr = new Ecrire(buffer)
 		ecr.setIHM(this)
 		caractere = c
 		ecr.execute
 	}
 	
 	def effacer():Unit={
+		val eff = new Effacer(buffer)
 		eff.execute
 	}
 	
